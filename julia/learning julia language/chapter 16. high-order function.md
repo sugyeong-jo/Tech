@@ -3,9 +3,9 @@ Syntax
 - foreach(f, xs)
 - map(f, xs)
 - filter(f, xs)
-- reduce(f,xs)
-- foldl(f, v0, xs)
-- foldr(f, v0, xs)
+- reduce(f, xs)
+- foldl(f, xs)
+- foldr(f, xs)
 ---
 ## Functions as arguments
 
