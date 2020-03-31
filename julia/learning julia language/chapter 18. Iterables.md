@@ -62,8 +62,9 @@ ERROR: MethodError: no method matching getindex(::Base.Generator{UnitRange{Int64
 ```
 string도 unicode error가 발생한다.
 
-따라서 ```lazysub (itr, range::UnitRange)``` 함수를 정의해 주는데, 이는 임의의 iterable을 슬라이싱할 수 있게 한다.
-이를 ```take```and ```drop```이라 한다.
+따라서 ```lazysub (itr, range::UnitRange)``` 함수를 정의해 주는데, 이는 임의의 iterable을 ```take```and ```drop```을 사용해서 슬라이싱할 수 있게 한다.
+ 
+
 ```julia
 lazysub(itr, r::UnitRange) = take(drop(itr, first(r) - 1), last(r) - first(r) + 1)
 ```
