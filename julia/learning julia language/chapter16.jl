@@ -29,3 +29,9 @@ function nmath(data)
 end
 
 nmath(dataset)
+
+data=dataset
+maths = filter(x -> x.subject === :math, data)
+students = map(x -> x.nclasses * x.nstudents, maths)
+foldl(=>,students)
+foldr(=>, students)
