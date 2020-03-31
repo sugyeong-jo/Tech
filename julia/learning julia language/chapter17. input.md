@@ -7,10 +7,10 @@ Syntax
 - chomp(str)
 - open(f, file)
 - eachline(io)
-- readstring(file)
+- ~~readstring(file)~~
 - read(file)
-- readcsv(file)
-- readdlm(file)
+- ~~readcsv(file)~~
+- readdlm(file,',',header=true)
 
 ---
 
