@@ -37,19 +37,103 @@ global i = 0 ;
     global i += 1
 end
 
-@until
+QuoteNode(:x)
+Meta.quot(:x)
+Expr(:quote, :x)
 
+macro mysym2(); Meta.quot(:x); end
 
+@mysym2
 
-macro until(condition, expression)
+ex = :( x = 1; :($x + $x) )
+quote
+    x = 1
+    $(Expr(:quote, :($(Expr(:$, :x)) + $(Expr(:$, :x)))))
+end
+
+eval(ex)
+
+macro makeex(arg)
     quote
-        while !($condition)
-            $expression
-        end
-    end |> esc
+        :( x = $(esc($arg)); :($x + $x) )
+    end
 end
 
-@until i == 10 begin
-    println(i)
-    i += 1
+@makeex 1
+@makeex 1 + 1
+
+macro makeex2(arg)
+    quote
+        :( x = $$(Meta.quot(arg)); :($x + $x) )
+    end
 end
+
+@makeex2 1 + 1
+
+@makeex2 1 + $(sin(1))
+
+let q = 0.5
+    @makeex2 1 + $q
+end
+
+
+
+macro makeex3(arg)
+    quote
+        :( x = $$(QuoteNode(arg)); :($x + $x) )
+    end
+end
+@makeex3 1 + $(sin(1))
+
+let q = 0.5
+    @makeex3 1 + $q
+end
+
+eval(@makeex3 $(sin(1)))
+
+macro makeex4(expr, left, right)
+    quote
+        quote
+            $$(Meta.quot(expr))
+            :($$$(Meta.quot(left)) + $$$(Meta.quot(right)))
+        end
+    end
+end
+@makeex4 x=1 x x
+eval(ans)
+@makeex4 x=1 x/2 x
+eval(ans)
+
+
+macro makeex5(expr, left, right)
+    quote
+        quote
+            $$(Meta.quot(expr))
+            :($$(Meta.quot($(Meta.quot(left)))) + $$(Meta.quot($(Meta.quot(right)))))
+        end
+    end
+end
+
+@makeex5 x=1 1/2 1/4
+eval(ans)
+#result: :(1 / 2 + 1 / 4)
+@makeex5 y=1 $y $y
+#result: ERROR: UndefVarError: y not defined
+
+macro makeex6(expr, left, right)
+    quote
+        quote
+            $$(Meta.quot(expr))
+            :($$(Meta.quot($(QuoteNode(left)))) + $$(Meta.quot($(QuoteNode(right)))))
+        end
+    end
+end
+
+@makeex6 y=1 1/2 1/4
+eval(ans)
+@makeex6 y=1 $y $y
+eval(ans)
+@makeex6 y=1 1+$y $y
+eval(ans)
+@makeex6 y=1 $y/2 $y
+eval(ans)

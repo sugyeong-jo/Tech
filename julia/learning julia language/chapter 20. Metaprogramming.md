@@ -71,6 +71,200 @@ end
 
 >ERROR: UndefVarError: i not defined 에 대한 에러는 global을 지정 안해주어서 생기는 문제이다. 
 
+### QuoteNode, Meta.quot, and Expr(:quote)
+
+줄리아에는 quote를 하는 세가지 방법이 있다.
+```julia
+QuoteNode(:x)
+Meta.quot(:x)
+Expr(:quote, :x)
+```
+
+*"quoting"의 의미와 좋은점은 무엇일까?*
+- quoting은 줄리아의 특별한 form으로서 해석할 수 있게 해주는 설명을 보호하게 한다. 
+- 보통 expressions를 다룰대 사용되며, 이것은 계산할 어떤 심볼을 포함해야 한다.
+    - 예를 들면 macro는 심볼로 평가되는 expression을 반환해야 한다. 단순히 기호를 반환하는 것은 작동하지 않는다.
+
+
+```julia
+macro mysym(); :x; end
+
+@mysym
+#result: ERROR: UndefVarError: x not defined
+
+macroexpand(:(@mysym))
+```
+밑에 경우는 또 결과가 잘 나오는데, 그 이유는 ```Meta.quot(:x)```가 함수의 symbol을 보여준다.
+
+```julia
+macro mysym2(); Meta.quot(:x); end
+
+@mysym2
+```
+
+## The difference between Meta.quot and QuoteNode, explained
+
+```Meta.quot(:x)```와 ```QuoteNode``` 함수는 거의 같고, 때때로 QuoteNode가 좀 더 안정적이라 한다. 
+
+- interpolation 기능을 지원받고자 한다면 ```Meta.quot;```
+- interpolation을 사용 못한다면 ```QuotNode```
+
+interpolation은 ```$```으로 표현되는 중요한 기능이다. 이런 표현들은 escaping을 위한 것이다. 
+예를 들면, 다음과 같다. 
+```julia
+ex = :( x = 1; :($x + $x) )
+quote
+    x = 1
+    $(Expr(:quote, :($(Expr(:$, :x)) + $(Expr(:$, :x)))))
+end
+
+eval(ex)
+```
+이를 표현을 자세히 보면, x에 1을 대입하여 ```_+_```로 묶이게 된다. 그러면 표현은 ```1+1```이 된다. 이건 아직 평가된건 아니다. 따라서 ```2```와는 차별된다.
+
+이제, 매크로를 이러한 종류의 표현으로 나타내보자!
+우리의 매크로는 ex의 1을 대체하는 구문을 취할 것이다. 이 구문은 어떤 표현이 될 수 있다. 다음은 우리가 완벽히 원하는 것은 아닌데, 한 번 보자. 
+```julia
+macro makeex(arg)
+    quote
+        :( x = $(esc($arg)); :($x + $x) )
+    end
+end
+
+@makeex 1
+#result
+quote
+    x = $(Expr(:escape, 1))
+    $(Expr(:quote, :($(Expr(:$, :x)) + $(Expr(:$, :x)))))
+end
+
+@makeex 1 + 1
+#result
+quote
+    x = $(Expr(:escape, 2))
+    $(Expr(:quote, :($(Expr(:$, :x)) + $(Expr(:$, :x)))))
+end
+
+```
+
+두번째 케이스는 ```1+1```을 value로 계산을 못하므로 틀렸다. 이 부분을 ```Meta.quot``` 구문으로 바꿔줌으로써 고쳤다.
+
+```julia
+macro makeex2(arg)
+    quote
+        :( x = $$(Meta.quot(arg)); :($x + $x) )
+    end
+end
+
+@makeex2 1 + 1
+```
+Macro hygiene은 quote의 컨텐츠들을 적용시키지 않아 escaping이 필요하지 않다. 
+앞서 언급한 ```Meta.quot```는 interpolation을 허용한다. 그래서 다음과 같이 할 수 있다.
+```julia
+@makeex2 1 + $(sin(1))
+
+let q = 0.5
+    @makeex2 1 + $q
+end
+```
+첫번째 예제에 따르면 sin(1)을 문장으로가 아닌 표현으로 허용하는걸 볼 수 있다. 두번째 예제에서 interpolation이 매크로 자체 범위가 아니라 매크로 호출 범위에서 수행됨을 보여준다.
+매크로가 실제로 코드를 평가하지 않았기 때문에, 코드를 생성하기 만 하면된다. 코드의 evaluation은 (표현식으로 전환) the expression the macro generate들이 실제로 동작할때 이다. 
+
+
+*QuoteNode를 대신 사용하한다면?*
+
+짐작할 수 있듯이 QuoteNode는 interpolation (보간) 이 전혀 발생하지 않기 때문에 작동하지 않는다.
+
+```julia
+macro makeex3(arg)
+    quote
+        :( x = $$(QuoteNode(arg)); :($x + $x) )
+    end
+end
+@makeex3 1 + $(sin(1))
+
+let q = 0.5
+    @makeex3 1 + $q
+end
+
+eval(@makeex3 $(sin(1)))
+```
+위 예제들로부터 ```Meta.quot```가 더 유연하게 적용된다는 걸 알 수 있다.
+
+*``QuotNode```는 언제 사용하는 걸까?*
+
+```$```가 문자 그대로 표현식에 사용되기 원할 때 사용한다. 이런경우는 언제일까? @makeex에 추가된 구문들이 왼쪽과 오른쪽에 + 사인으로 결합할 수 있는 구문을 만들어보자. 
+
+```julia
+macro makeex4(expr, left, right)
+    quote
+        quote
+            $$(Meta.quot(expr))
+            :($$$(Meta.quot(left)) + $$$(Meta.quot(right)))
+        end
+    end
+end
+@makeex4 x=1 x x
+eval(ans)
+```
+@makeex4의 한계는 interpolate를 취하기 때문에 왼쪽이나 오른쪽 표현을 바로 표현할 수 없다는 것이다. 다른말로는 표현들이 보간을 평가해서 취한다는 것인데, 우리는 이런 것들로부터 피하고 싶다. (그러므로 많은 레벨의 quoting과 평가가 있고, 우리는 이를 명확히 해야한다. 우리의 macro generate 코드는 다른 표현을 다루기 위해 표현 구조를 또! 만듭니다. 휴... )
+
+```julia
+@makeex4 x=1 x/2 x
+eval(ans)
+```
+
+보간이 발생하는 시간과 그렇지 않은 시간을 사용자가 지정할 수 있도록해야하는데, 이론적으로 이것은 쉬운 수정이다. 응용 프로그램에서 $ 기호 중 하나를 제거하고 사용자가 스스로 있게 하는 것이다. 이것이 의미하는 것은 사용자가 입력 한 quoted version의 표현식을 보간한다는 것이다. (이미 한 번 인용하고 보간했다). 이로 인해 다음과 같은 코드가 생성되는데, 이는 여러 개의 중첩 된 quoting 및 quoting 해제 수준으로 인해 처음에는 약간 혼란 스러울 수 있다. 각 escape의 목적을 읽고 이해해야 한다.
+
+```julia
+macro makeex5(expr, left, right)
+    quote
+        quote
+            $$(Meta.quot(expr))
+            :($$(Meta.quot($(Meta.quot(left)))) + $$(Meta.quot($(Meta.quot(right)))))
+        end
+    end
+end
+
+@makeex5 x=1 1/2 1/4
+eval(ans)
+#result: :(1 / 2 + 1 / 4)
+@makeex5 y=1 $y $y
+#result: ERROR: UndefVarError: y not defined
+```
+대충 돌아가기는 하는데 약간 틀렸다. 매크로의 generated code는 호출범위에서 y의 복사본을 보간으로 사용하려 한다. 하지만 실제로는 복사본 사용을 못했다. 우리의 에러는 보간이 두번째와 세번째 구문에서 허용되게 한다는 것이다. 따라서 ```QuoteNode```를 사용해야 한다. 
+
+```julia
+macro makeex6(expr, left, right)
+    quote
+        quote
+            $$(Meta.quot(expr))
+            :($$(Meta.quot($(QuoteNode(left)))) + $$(Meta.quot($(QuoteNode(right)))))
+        end
+    end
+end
+
+@makeex6 y=1 1/2 1/4
+eval(ans)
+@makeex6 y=1 $y $y
+eval(ans)
+@makeex6 y=1 1+$y $y
+eval(ans)
+@makeex6 y=1 $y/2 $y
+eval(ans)
+```
+```QuoteNode```는 추가 보호의 효과만 있으므로 보간을 원하지 않는 한 QuoteNode를 사용하는 것은 결코 해롭지 않다. 그러나 차이점을 이해하면 Meta.quot가 더 나은 선택이 될 수있는 때와 이유를 이해할 수 있다.
+
+## What about Expr(:quote)?
+
+```Expr(:quote)```은 ```Meta.quot(x)```와 같다. 그러나 후자가 좀 더 관용적이고 선호된다. 큰 사이즈의 메타프로그래밍에서 ```using Base.Meta```라인을 좀 더 사용하며, 이는 ```Meta.quot```를 간단하게 ```quot```로 사용할 수 있게 한다.
+
+
+
+
+
+
+
 
 
 
