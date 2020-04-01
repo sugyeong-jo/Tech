@@ -191,7 +191,7 @@ eval(@makeex3 $(sin(1)))
 ```
 위 예제들로부터 ```Meta.quot```가 더 유연하게 적용된다는 걸 알 수 있다.
 
-*``QuotNode```는 언제 사용하는 걸까?*
+*```QuotNode```는 언제 사용하는 걸까?*
 
 ```$```가 문자 그대로 표현식에 사용되기 원할 때 사용한다. 이런경우는 언제일까? @makeex에 추가된 구문들이 왼쪽과 오른쪽에 + 사인으로 결합할 수 있는 구문을 만들어보자. 
 
@@ -259,7 +259,19 @@ eval(ans)
 
 ```Expr(:quote)```은 ```Meta.quot(x)```와 같다. 그러나 후자가 좀 더 관용적이고 선호된다. 큰 사이즈의 메타프로그래밍에서 ```using Base.Meta```라인을 좀 더 사용하며, 이는 ```Meta.quot```를 간단하게 ```quot```로 사용할 수 있게 한다.
 
+---
 
+## Interpolation and assert macro
+```@assert```가 뭔지 제일 궁금했다!!!!
+일단 정의는 다음과 같다.
+```julia
+macro assert(ex)
+    return :( $ex ? nothing : throw(AssertionError($(string(ex)))) )
+end
+
+@assert 1 == 1.0
+@assert 1 == 0
+```
 
 
 
