@@ -153,3 +153,20 @@ end
 
 @assert a==b "a ($a) should equal b ($b)!"
 
+macro decorator(dec, func)
+    name = func.args[1].args[1]
+    hiddenname = gensym()
+    func.args[1].args[1] = hiddenname
+    quote
+      $func
+      const $(esc(name)) = $dec($hiddenname)
+    end
+end
+
+foo(f) = x->2*f(x+10)
+
+@decorator foo function bar(x)
+    return x+1
+end
+
+#http://julia-programming-language.2336112.n4.nabble.com/Macro-as-decorators-td40521.html

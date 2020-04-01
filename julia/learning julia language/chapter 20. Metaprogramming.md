@@ -289,6 +289,26 @@ end
 @assert는 논리 오류를 해결하는 또다른 방법이다. assert 문은 예외를 일으킨다는 점에서 raise 문과 비슷한 명령이다. 하지만 언제·어떤 예외를 발생시키는지가 raise 문과 다르다. assert는 상태 검증용도이고, 검증식이 거짓일 때만 예외를 일으킨다. raise는 예외의 발생에 사용되며, 항상 예외를 일으킨다.
 >정확한 오류 정보를 전달하기 위해서는 assert 문보다 raise 문을 이용하는 것이 좋다. 
 
+파이썬의 데코레이터 기능도 할 수 있다.
+다음은 그 예이다.
+```julia
+macro decorator(dec, func)
+    name = func.args[1].args[1]
+    hiddenname = gensym()
+    func.args[1].args[1] = hiddenname
+    quote
+      $func
+      const $(esc(name)) = $dec($hiddenname)
+    end
+end
+
+foo(f) = x->2*f(x+10)
+
+@decorator foo function bar(x)
+    return x+1
+end
+```
+>http://julia-programming-language.2336112.n4.nabble.com/Macro-as-decorators-td40521.html
 
 
 
