@@ -271,9 +271,23 @@ end
 
 @assert 1 == 1.0
 @assert 1 == 0
+
+#원래는 다음과 같은 정의라고 한다.
+macro assert(ex, msgs...)
+    msg_body = isempty(msgs) ? ex : msgs[1]
+    msg = string(msg_body)
+    return :($ex ? nothing : throw(AssertionError($msg)))
+end
+
+#확장된 assert 예시는 다음과 같다.
+@macroexpand @assert a == b
+@macroexpand @assert a==b "a should equal b!"
+@assert a==b "a ($a) should equal b ($b)!"
+
+
 ```
-
-
+@assert는 논리 오류를 해결하는 또다른 방법이다. assert 문은 예외를 일으킨다는 점에서 raise 문과 비슷한 명령이다. 하지만 언제·어떤 예외를 발생시키는지가 raise 문과 다르다. assert는 상태 검증용도이고, 검증식이 거짓일 때만 예외를 일으킨다. raise는 예외의 발생에 사용되며, 항상 예외를 일으킨다.
+>정확한 오류 정보를 전달하기 위해서는 assert 문보다 raise 문을 이용하는 것이 좋다. 
 
 
 

@@ -137,3 +137,19 @@ eval(ans)
 eval(ans)
 @makeex6 y=1 $y/2 $y
 eval(ans)
+
+
+
+macro assert(ex)
+    return :( $ex ? nothing : throw(AssertionError($(string(ex)))) )
+end
+
+@assert 1 == 1.0
+@assert 1 == 0
+
+@macroexpand @assert a == b
+
+@macroexpand @assert a==b "a should equal b!"
+
+@assert a==b "a ($a) should equal b ($b)!"
+
