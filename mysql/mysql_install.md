@@ -34,14 +34,14 @@ sudo mysql -u root
 이때 password 는 수도권한에 대한 password 였다.
 
 (2) 그럼 mysql 이 작동되고, 이제 root에 대한 비밀번호를 변경해 주면 된다.
-```mysql
+```sql
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
 ```
 - 여기서 *root*는 비밀번호이다. 
 
 (3) mysql을 종료하고
 
-```mysql
+```sql
 exit
 ```
 
