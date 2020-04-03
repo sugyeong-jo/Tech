@@ -23,3 +23,7 @@ USE <DB>
 SHOW TABLES;
 ```
 
+# ssh 코드 얻기
+```sql
+select host, user, authentication_string from mysql.user;
+```
