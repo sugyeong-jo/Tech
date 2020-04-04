@@ -2,10 +2,6 @@
 
 csv를 디비에 올리기에 대한 정석을 아직 찾은 것은 아닌 듯 하나 성공해낸 방법을 정리하고자 한다.
 
-**reference**
-- https://suwoni-codelab.com/python%20%EA%B8%B0%EB%B3%B8/2018/03/07/Python-Basic-itertools/
-
-
 # 0. pymysql install
 csv를 바로 DB로 올리는 방법을 안만 찾아봐도 테이블을 만들어야 했다.
 그렇다면 테이블을 자동으로 만들어주는 쿼리문은 없을까 하고 또 암만 찾아봐도 없었다.
