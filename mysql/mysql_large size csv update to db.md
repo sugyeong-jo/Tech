@@ -49,7 +49,7 @@ longest, headers, type_list = [], [], []
 ```
 - 'utf-8-sig'는 한국어 인코딩을 위함이다.
 
-다음은 csv의 값들을 읽엉서 varchart로 할지, int로 할 지 정해주는 함수이다. 
+다음은 csv의 값들을 읽고, varchart로 할지, int로 할 지 정해주는 함수이다. 
 ```python
 def dataType(val, current_type):
     try:
