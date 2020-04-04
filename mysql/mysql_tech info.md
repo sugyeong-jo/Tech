@@ -14,6 +14,8 @@ select host, user, authentication_string from mysql.user;
 SELECT USER, host FROM USER;
 ```
 
+--- 
+## DB 관련
 **DB 조회**
 ```sql
 SHOW DATABASES;
@@ -28,6 +30,11 @@ SELECT DATABASE();
 ```sql
 USE <DB>
 ```
+**DB 만들기 (예시)**
+
+```sql
+CREATE DATABASE student_mgmt DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+```
 
 ---
 ## 테이블 관련
@@ -36,13 +43,36 @@ USE <DB>
 SHOW TABLES;
 ```
 
-**DB 테이블 추가**
-```sql
+**DB 테이블 추가 (예시)**
 
+```sql
+CREATE TABLE students (
+  id TINYINT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(10) NOT NULL,
+  gender ENUM('man','woman') NOT NULL,
+  birth DATE NOT NULL,
+  english TINYINT NOT NULL,
+  math TINYINT NOT NULL,
+  korean TINYINT NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ```
-**DB 테이블 수정**
-```sql
 
+**DB 테이블 요소 추가 (예시)**
+```sql
+INSERT INTO students (name, gender, birth, english, math, korean) VALUES ('dave', 'man', '1983-07-16', 90, 80, 71);
+INSERT INTO students (name, gender, birth, english, math, korean) VALUES ('minsun', 'woman', '1982-10-16', 30, 88, 60);
+INSERT INTO students (name, gender, birth, english, math, korean) VALUES ('david', 'man', '1982-12-10', 78, 77, 30);
+INSERT INTO students (name, gender, birth, english, math, korean) VALUES ('jade', 'man', '1979-11-1', 45, 66, 20);
+INSERT INTO students (name, gender, birth, english, math, korean) VALUES ('jane', 'man', '1990-11-12', 65, 32, 90);
+INSERT INTO students (name, gender, birth, english, math, korean) VALUES ('wage', 'woman', '1982-1-13', 76, 30, 80);
+INSERT INTO students (name, gender, birth, english, math, korean) VALUES ('tina', 'woman', '1982-12-3', 87, 62, 71);
+```
+
+**DB 테이블 컬럼 타입 수정**
+```sql
+ALTER TABLE 테이블명 MODIFY 컬럼 변경타입;
+# 변경타입  ex) VARCHAR(8)
 ```
 
 **DB 테이블 제거**
