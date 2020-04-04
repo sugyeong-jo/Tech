@@ -24,6 +24,11 @@ SHOW TABLES;
 ```
 
 # ssh 코드 얻기
+1. mysql 로그인
+```bash
+mysql -p
+```
+2. ssh key 얻기
 ```sql
 select host, user, authentication_string from mysql.user;
 ```
