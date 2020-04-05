@@ -88,5 +88,26 @@ DROP TABLE PLAYER;
 
 **DB 테이블 이름 변경**
 ```sql
-RENAME 변경전 테이블 명 TO 변경 후 테이블 명;
+RENAME TABLE 변경전 테이블 명 TO 변경 후 테이블 명;
 ```
+
+---
+
+**select with pymysql**
+
+```python
+sql = "SELECT id, total FROM kt group by id;"
+df = pd.read_sql(sql, db)
+```
+
+*error*
+
+```
+Error this is incompatible with sql_mode=only_full_group_by
+```
+
+```sql
+set session 
+sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+```
+
