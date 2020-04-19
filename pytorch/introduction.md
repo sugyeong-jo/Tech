@@ -27,6 +27,11 @@
     - How to create a Dataset?
 
 
-
-
-
+$$
+\begin{align*}
+\qquad Z^* = \min \quad & \mathbf{c}^\top \mathbf{x} \\
+\text{s.t.} \quad & \mathbf{A} \mathbf{x} = \mathbf{b} \\
+&{D} \mathbf{x} \leq {e} \\
+&{x}  \geq 0, \text{ Integer}.
+\end{align*}
+$$
