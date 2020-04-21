@@ -3,7 +3,7 @@
 ## 1. 단순히 mps를 읽고, 시간 제약만 주어 풀기
 
 ```bash
-cbc cbc -import R100701005_2.mps -sec 600 -solve
+cbc -import R100701005_2.mps -sec 600 -solve
 ```
 
 - ```-import```는 생략 가능
