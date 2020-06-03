@@ -5,9 +5,8 @@ using JuMP, Cbc
 const MOI = MathOptInterface
 using SparseArrays
 
-##########################
-filepath = "/HDD/Workspace/CLT/mps/processing/CPLEX_file/4_R170725003_veri_cplex.mps"
-m =read_from_file(filepath)
+println("================MPS to Matrix=================")
+m = read_from_file("/HDD/Workspace/CLT/mps/processing/CPLEX_file/4_R170725003_veri_cplex.mps")
 optimizer=optimizer_with_attributes(Cbc.Optimizer,  "maxSolutions" => 1, "logLevel "=>1, "seconds" => 300,"allowableGap "=>70)
 set_optimizer(m, optimizer)
 
@@ -68,20 +67,14 @@ for i in tqdm(1:length(variable))
     var_ref[var_name] = :Interval
 end
 
-variable = all_constraints(m, VariableRef, MathOptInterface.GreaterThan{Float64})
+
+variable = all_constraints(m, VariableRef, MathOptInterface.EqualTo{Float64})
 for i in tqdm(1:length(variable))
     var_name = constraint_object(variable[i]).func
-    var_lb[var_name] = constraint_object(variable[i]).set.lower
-    var_ref[var_name] = :Greater
+    var_lb[var_name] = constraint_object(variable[i]).set.value
+    var_ub[var_name] = constraint_object(variable[i]).set.value
+    var_ref[var_name] = :EqualTo
 end
-variable = all_constraints(m, VariableRef, MathOptInterface.LessThan{Float64})
-for i in tqdm(1:length(variable))
-    var_name = constraint_object(variable[i]).func
-    var_ub[var_name] = constraint_object(variable[i]).set.upper
-    var_ref[var_name] = :Less
-end
-
-
 
 variable = all_constraints(m, VariableRef, MathOptInterface.Integer)
 for i in tqdm(1:length(variable))
@@ -142,7 +135,6 @@ for i in tqdm(con_set)
 end
 
 A = sparse(I,J,V)
-
 #######################################################################
 #  Final result
 #######################################################################
