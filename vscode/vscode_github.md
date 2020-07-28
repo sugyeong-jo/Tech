@@ -4,11 +4,11 @@
 ### 1. 폴더 sudo 권한 주기
 
 ```
-chmod -R <user name> <folder name>
+chmod -R user_name folder_name
 ```
 
-- <user name> : sugyeong
-- <folder name> : sugyeong
+- user_name : sugyeong
+- folder_name : sugyeong
 
 
 ### 2. Github 로그인 정보 저장
