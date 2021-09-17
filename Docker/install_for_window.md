@@ -1,18 +1,30 @@
 Window 10에 docker로 개발환경 만들기!
 
-# Step 1: resource file 다운로드
+# Step 1: Docker 환경 구축
+## 1-1. resource file 다운로드
 - install linux distro 
     -  예: UBUNTU 
 - Install Docker Desktop on Window
 - Install Github for window
 - Install visual studio code
-- WSL2 설치 및 활성화
-    - Docker는 WSL2 이어야 함 
+## 1-2. WSL2 설치 및 활성화
+- Docker는 WSL2 이어야 함 
 ```bash
-wsl -l -v #WSL 버전 확인
-wsl --set-version [distro] 2 #distro version 2로 만들기 예: wsl --set-version ubuntu 2 
+// WSL 버전 확인
+wsl -l -v 
+
+//distro version 2로 만들기
+wsl --set-version [distro] 2  
+
+//ex
+wsl --set-version ubuntu 2
 
 ```
+## 1-3. Docker 실행
+```bash
+docker login
+```
+
 
 # Step 2: Docker image 만들기 
 ## 2-1: 직접 이미지 작성
@@ -75,6 +87,21 @@ docker run -it --volume="F:\UNIST\OneDrive - UNIST\Attachments\data:/home/worksp
 - onedrive path도 가능! 
 - 마지막 `bin/bash`는 바로 사용할 수 있게 하기 위해서~!
 
+
+# Step 4: Docker 사용하기
+```bash
+//Docker login
+docker login
+
+//Docker 시작
+docker start [Docker container]
+
+//Docker 접속
+docker attach [Docker container]
+
+//
+docker stop [Docker contatiner]
+```
 #### Reference
 - (1) https://docs.docker.com/desktop/windows/install/
 - (1) https://docs.microsoft.com/ko-kr/windows/wsl/tutorials/wsl-containers
