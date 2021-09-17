@@ -10,7 +10,8 @@ Window 10에 docker로 개발환경 만들기!
     - Docker는 WSL2 이어야 함 
 ```bash
 wsl -l -v #WSL 버전 확인
-wsl --set-version <distro> 2 #distro version 2로 만들기
+wsl --set-version [distro] 2 #distro version 2로 만들기 예: wsl --set-version ubuntu 2 
+
 ```
 
 # Step 2: Docker image 만들기 
