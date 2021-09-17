@@ -26,13 +26,22 @@ RUN pip install matplotlib
 
 
 ## 2-2: Docker image 생성
-- 
+```bash
+docker build -t [이미지id]:[tag] [Dockfile 있는 경로]
+```
+예:
+```bash
+docker build -t j_python:0.1 ./
+```
+
+
 ## 2-3: 
 
 # Step 3: Docker container 만들기
 
 
 #### Reference
-- https://docs.docker.com/develop/develop-images/baseimages/
-- https://cultivo-hy.github.io/docker/image/usage/2019/03/14/Docker%EC%A0%95%EB%A6%AC/
-- https://tootouch.github.io/setting/docker_image_build/
+- (2-1) https://docs.docker.com/develop/develop-images/baseimages/
+- (2-1) https://cultivo-hy.github.io/docker/image/usage/2019/03/14/Docker%EC%A0%95%EB%A6%AC/
+- (2-1, 2-2) https://tootouch.github.io/setting/docker_image_build/
+- (2-2) https://docs.docker.com/engine/reference/builder/
