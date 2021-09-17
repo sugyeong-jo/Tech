@@ -82,7 +82,7 @@ docker run -it --volumn="[host system directory]:[container directory]" --name [
 ```bash
 docker run -it --volume="C:\Users\jclar\Documents\dataset:/home/workspace" --name j_python j_python:0.1 /bin/bash
 
-docker run -it --volume="F:\UNIST\OneDrive - UNIST\Attachments\data:/home/workspace" --name j_python j_python:0.1 /bin/bash
+docker run -it --volume="F:\UNIST\OneDrive - UNIST\Attachments:/home/workspace" --name j_python j_python:0.1 /bin/bash
 ```
 - onedrive path도 가능! 
 - 마지막 `bin/bash`는 바로 사용할 수 있게 하기 위해서~!
