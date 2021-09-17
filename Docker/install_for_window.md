@@ -1,13 +1,8 @@
 Window 10에 docker로 개발환경 만들기!
 
 # Step 1: resource file 다운로드
-## 
 
 # Step 2: Docker image 만들기 
-#### Reference
-- https://docs.docker.com/develop/develop-images/baseimages/
-- https://cultivo-hy.github.io/docker/image/usage/2019/03/14/Docker%EC%A0%95%EB%A6%AC/
-- 
 ## 2-1: Dockerfile 작성
 파일이름은 `Dockerfile`로 작성
 ```vim
@@ -35,3 +30,9 @@ RUN pip install matplotlib
 ## 2-3: 
 
 # Step 3: Docker container 만들기
+
+
+#### Reference
+- https://docs.docker.com/develop/develop-images/baseimages/
+- https://cultivo-hy.github.io/docker/image/usage/2019/03/14/Docker%EC%A0%95%EB%A6%AC/
+- 
