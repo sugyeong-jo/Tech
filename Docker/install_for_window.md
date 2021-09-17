@@ -68,7 +68,7 @@ docker search python
 
 ## 2-3: Docker image 당겨오기 
 ```bash
-docker pull [이미지id]:[tag
+docker pull [이미지id]:[tag]
 ```
 
 # Step 3: Docker container 만들기
