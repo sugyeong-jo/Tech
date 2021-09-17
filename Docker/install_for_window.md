@@ -35,21 +35,3 @@ RUN pip install matplotlib
 ## 2-3: 
 
 # Step 3: Docker container 만들기
-
-
-# Docker 이미지와 컨테이너 삭제
-#### Reference
-- https://brunch.co.kr/@hopeless/10
-
-- 동작중인 컨테이너 확인
-```bash
-docker ps 
-```
-- 동작중인 컨테이너 확인
-```bash
-docker ps 
-```
-- 동작중인 컨테이너 확인
-```bash
-docker ps 
-```
