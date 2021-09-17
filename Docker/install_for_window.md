@@ -99,7 +99,7 @@ docker start [Docker container]
 //Docker 접속
 docker attach [Docker container]
 
-//
+//Docker 종료
 docker stop [Docker contatiner]
 ```
 #### Reference
