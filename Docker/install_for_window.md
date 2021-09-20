@@ -90,7 +90,8 @@ docker run -it --volume="F:\UNIST\OneDrive - UNIST\Attachments:/home/workspace" 
 
 # Step 4: Docker 메모리 할당
 Docker가 메모리를 99% 이상 잡아먹어 이것을 제한하는 방법을 찾아봄
-4-1. 다음 위치로 변경
+
+## 4-1. 다음 위치로 변경
 ```bash
 cd C:\Users\[username]
 ```
@@ -99,8 +100,8 @@ cd C:\Users\[username]
 C:\Users\jclar
 ```
 
-4-2. `.wslconfig` 파일 생성
-4-3. `.wslconfig`에 다음과 같이 작성
+## 4-2. `.wslconfig` 파일 생성
+## 4-3. `.wslconfig`에 다음과 같이 작성
 ```
 [wsl2]
 kernel=C:\\temp\\myCustomKernel
