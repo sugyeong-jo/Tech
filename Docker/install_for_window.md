@@ -88,7 +88,35 @@ docker run -it --volume="F:\UNIST\OneDrive - UNIST\Attachments:/home/workspace" 
 - 마지막 `bin/bash`는 바로 사용할 수 있게 하기 위해서~!
 
 
-# Step 4: Docker 사용하기
+# Step 4: Docker 메모리 할당
+Docker가 메모리를 99% 이상 잡아먹어 이것을 제한하는 방법을 찾아봄
+4-1. 다음 위치로 변경
+```bash
+cd C:\Users\[username]
+```
+나는 다음과 같이 작성함.
+```bash
+C:\Users\jclar
+```
+
+4-2. `.wslconfig` 파일 생성
+4-3. `.wslconfig`에 다음과 같이 작성
+```
+[wsl2]
+kernel=C:\\temp\\myCustomKernel
+memory=4GB # Limits VM memory in WSL 2 to 4 GB
+processors=2 # Makes the WSL 2 VM use two virtual processors
+
+```
+
+나는 다음과 같이 작성함.
+```
+[wsl2]
+memory=2GB
+
+```
+
+
 ```bash
 //Docker login
 docker login
@@ -112,3 +140,4 @@ docker stop [Docker contatiner]
 - (2-1, 2-2) https://tootouch.github.io/setting/docker_image_build/
 - (2-2) https://docs.docker.com/engine/reference/builder/
 - (3) https://docs.docker.com/engine/reference/commandline/create/
+- (4-3) https://docs.microsoft.com/en-us/windows/wsl/wsl-config#configure-global-options-with-wslconfig
