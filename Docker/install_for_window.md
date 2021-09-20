@@ -116,21 +116,6 @@ processors=2 # Makes the WSL 2 VM use two virtual processors
 memory=2GB
 
 ```
-
-
-```bash
-//Docker login
-docker login
-
-//Docker 시작
-docker start [Docker container]
-
-//Docker 접속
-docker attach [Docker container]
-
-//Docker 종료
-docker stop [Docker contatiner]
-```
 #### Reference
 - (1) https://docs.docker.com/desktop/windows/install/
 - (1) https://docs.microsoft.com/ko-kr/windows/wsl/tutorials/wsl-containers
