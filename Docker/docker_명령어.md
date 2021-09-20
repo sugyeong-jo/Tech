@@ -1,3 +1,19 @@
+# Docker 실행 및 종료
+
+```bash
+//Docker login
+docker login
+
+//Docker 시작
+docker start [Docker container]
+
+//Docker 접속
+docker attach [Docker container]
+
+//Docker 종료
+docker stop [Docker contatiner]
+```
+
 
 #  Docker image 관련 명령어
 - 동작중인 이미지 확인
