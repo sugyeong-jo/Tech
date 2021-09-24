@@ -1,4 +1,18 @@
 Window 10에 docker로 개발환경 만들기!
+# Step 0: bios 설정 (amd)
+```bash
+Hardware assisted virtualization and data execution protection must be enabled in the BIOS. See https://docs.docker.com/desktop/windows/troubleshoot/#virtualization
+```
+
+#### solution
+
+- Hyper-V 설치 후 러닝
+    - https://docs.docker.com/desktop/windows/troubleshoot/#virtualization
+```bash
+bcdedit /set hypervisorlaunchtype auto
+```
+- BIOS에서 '가상화 (virtual)' enable 해주기. AMD는 다음과 같이 설정함
+    - https://friendcom.tistory.com/585
 
 # Step 1: Docker 환경 구축
 ## 1-1. resource file 다운로드
