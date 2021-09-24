@@ -12,7 +12,9 @@ Hardware assisted virtualization and data execution protection must be enabled i
 bcdedit /set hypervisorlaunchtype auto
 ```
 - BIOS에서 '가상화 (virtual)' enable 해주기. AMD는 다음과 같이 설정함
+    - uefi BIOS utility > CPU config > SVM mode > engable!
     - https://friendcom.tistory.com/585
+    - ![](amd.jpg)
 
 # Step 1: Docker 환경 구축
 ## 1-1. resource file 다운로드
