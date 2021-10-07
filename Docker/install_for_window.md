@@ -98,7 +98,7 @@ docker run -it --volumn="[host system directory]:[container directory]" --name [
 ```bash
 docker run -it --volume="C:\Users\jclar\Documents\dataset:/home/workspace" --name j_python j_python:0.1 /bin/bash
 
-docker run -it --volume="F:\UNIST\OneDrive - UNIST\Attachments:/home/workspace" --name j_python j_python:0.1 /bin/bash
+docker run -it --volume="F:\UNIST\OneDrive - UNIST\Attachments:/home/workspace" --name j_python sugyeong/j_python:0.2 /bin/bash
 
 docker run -it --volume="C:\Users\USER\OneDrive - UNIST\Attachments:/home/workspace" --name j_python sugyeong/j_python:0.2 /bin/bash
 ```
