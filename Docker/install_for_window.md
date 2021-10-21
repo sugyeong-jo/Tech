@@ -101,6 +101,10 @@ docker run -it --volume="C:\Users\jclar\Documents\dataset:/home/workspace" --nam
 docker run -it --volume="F:\UNIST\OneDrive - UNIST\Attachments:/home/workspace" --name j_python sugyeong/j_python:0.2 /bin/bash
 
 docker run -it --volume="C:\Users\USER\OneDrive - UNIST\Attachments:/home/workspace" --name j_python sugyeong/j_python:0.2 /bin/bash
+
+docker run -it --volume="F:\UNIST\OneDrive - UNIST\Attachments\2021\project\sejong:/home/workspace" --name jupyterdocker jupyter/datascience-notebook:latest  /bin/bash
+
+
 ```
 - onedrive path도 가능! 
 - 마지막 `bin/bash`는 바로 사용할 수 있게 하기 위해서~!
