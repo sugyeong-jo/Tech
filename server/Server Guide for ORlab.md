@@ -65,3 +65,7 @@ mkdir path/foldername
 chmod 777 -m 777 dirname
 ```
 
+## Server connection
+```
+ssh -p [port] [user id]@[ip address]
+```
