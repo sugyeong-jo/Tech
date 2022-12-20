@@ -62,8 +62,16 @@ passwd [user id]
 **Create a directory and give permission**
 ```
 mkdir path/foldername
-chmod 777 -m 777 dirname
+chmod 777 -m 777 foldername
 ```
+
+**Create a mount floder**
+```
+mkdir path/foldername
+mount --bind [bind하고자 하는 폴더 경로] [path/foldername]
+```
+- e.g.
+`mount --bind ./ORlab/ ./sugyeong/ORlab/`
 
 ## Server connection
 ```
