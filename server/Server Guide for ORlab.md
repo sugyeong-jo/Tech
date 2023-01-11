@@ -85,3 +85,48 @@ umount [path/foldername]
 ```
 ssh -p [port] [user id]@[ip address]
 ```
+
+## Environment Initiallization
+**[on the root id] Step 0-1 : Group add**
+```
+groupadd [group name]
+```
+- e.g.
+```
+groupadd orlab
+```
+- ref: https://kingofbackend.tistory.com/193
+
+**[on the root id]Step 0-2 : Assign the Group to the Anaconda folder**
+```
+chown <option> [owner:owner group] [file or folder]
+```
+- e.g.
+```
+chown -R orlab /home/opt/
+```
+-ref: https://itworld.gmax8.com/24
+
+
+
+**[on the root id]Step 1: Member add to Group**
+```
+gpasswd -a [member] [group]
+```
+- e.g.
+```
+gpasswd -a sugyeong orlab
+```
+
+**[on the member id]Step 2: Modify the bashrc**
+```
+vim ~/.bashrc
+```
+Add the environment path
+```
+export PATH="/home/opt/anaconda3/bin:$PATH"
+```
+Restart
+```
+source ~/.bashrc
+```
