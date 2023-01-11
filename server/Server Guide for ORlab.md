@@ -86,6 +86,13 @@ umount [path/foldername]
 ssh -p [port] [user id]@[ip address]
 ```
 
+## Setting the FTP
+```
+yum install -y vsftpd
+```
+-ref: https://freewings.tistory.com/86
+
+
 ## Environment Initiallization
 **[on the root id] Step 0-1 : Group add**
 ```
